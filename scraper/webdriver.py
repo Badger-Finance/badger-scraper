@@ -6,7 +6,7 @@ from contextlib import contextmanager
 
 
 @contextmanager
-def get_webdriver() -> WebDriver:
+def webdriver_session() -> WebDriver:
     options = webdriver.ChromeOptions()
     options.add_argument('headless')
     options.add_argument('--disable-infobars')
