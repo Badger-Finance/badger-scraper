@@ -8,5 +8,11 @@ def mock_webdriver(mocker):
     )
     mocker.patch(
         "scraper.webdriver.webdriver.Chrome.page_source",
-        "123",
+        '<!DOCTYPE html> '
+        '<html>'
+        '<body>'
+        '<h1>My First Heading</h1>'
+        '<p>My first paragraph.</p>'
+        '</body>'
+        '</html>'
     )

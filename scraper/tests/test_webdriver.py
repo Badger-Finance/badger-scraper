@@ -11,7 +11,8 @@ def test_webdriver__happy(mock_webdriver):
     with webdriver_session() as driver:
         driver.get(BADGER_APP_URL)
         content = driver.page_source
-    assert content == "123"
+    assert content == '<!DOCTYPE html> <html><body><h1>My First Heading</h1><p>' \
+                      'My first paragraph.</p></body></html>'
 
 
 def test_webdriver__invalid_exec_path(mock_webdriver):
