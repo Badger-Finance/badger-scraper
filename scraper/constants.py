@@ -1,2 +1,4 @@
+import os
+
 BADGER_APP_URL = "https://app.badger.com"
-BADGER_APP_NETLIFY_URL = "badger-app.netlify.app"
+BADGER_APP_COMPARE_URL = os.getenv("BADGER_APP_COMPARE_URL") or "https://badger-dapp.netlify.app"
