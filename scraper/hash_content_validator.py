@@ -1,4 +1,5 @@
 from scraper.discord import alert_to_discord
+from scraper.discord import send_ok_to_discord
 from scraper.webdriver import webdriver_session
 
 
@@ -11,3 +12,5 @@ def fetch_data(url: str) -> str:
 def compare_hashes(content: int, compare_content: int) -> None:
     if content != compare_content:
         alert_to_discord()
+    else:
+        send_ok_to_discord()
