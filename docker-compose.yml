@@ -10,7 +10,10 @@ services:
     volumes:
       - ./:/scraper
     command: ["python", "main.py"]
+    restart: on-failure
     depends_on:
+      - v2_ui
+    links:
       - v2_ui
 
   v2_ui:
@@ -21,4 +24,9 @@ services:
       dockerfile: ui.Dockerfile
     ports:
       - "3000:3000"
-    command: ["yarn", "start"]
+    command: ["serve", "-s", "./build"]
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:3000" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5

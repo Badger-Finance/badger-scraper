@@ -14,7 +14,8 @@ def alert_to_discord():
         adapter=RequestsWebhookAdapter(),
     )
     webhook.send(
-        f"<{BADGER_APP_URL}> website content is not equal to <{BADGER_APP_COMPARE_URL}> content!!!"
+        f"<{BADGER_APP_URL}> website content "
+        f"is not equal to https://<{BADGER_APP_COMPARE_URL}> content!!!"
         f"{DISCORD_ALERT_ROLE}",
         username='Badger Scraper Bot',
     )
