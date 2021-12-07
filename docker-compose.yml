@@ -10,3 +10,15 @@ services:
     volumes:
       - ./:/scraper
     command: ["python", "main.py"]
+    depends_on:
+      - v2_ui
+
+  v2_ui:
+    build:
+      args:
+        - V2_UI_READ_TOKEN=${V2_UI_READ_TOKEN}
+      context: .
+      dockerfile: Dockerfile-UI
+    ports:
+      - "3000:3000"
+    command: ["yarn", "start"]
