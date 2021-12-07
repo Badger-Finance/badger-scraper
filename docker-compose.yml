@@ -18,7 +18,7 @@ services:
       args:
         - V2_UI_READ_TOKEN=${V2_UI_READ_TOKEN}
       context: .
-      dockerfile: Dockerfile-UI
+      dockerfile: ui.Dockerfile
     ports:
       - "3000:3000"
     command: ["yarn", "start"]
