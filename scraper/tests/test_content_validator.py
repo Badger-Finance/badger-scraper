@@ -2,6 +2,7 @@ import pytest
 
 from scraper.constants import BADGER_APP_COMPARE_URL
 from scraper.constants import BADGER_APP_URL
+from scraper.content_validator import calculate_amount_of_tags
 from scraper.content_validator import validate_tags
 from scraper.webdriver import fetch_data
 
@@ -26,3 +27,8 @@ def test_validator__spoiled(mocker, discord_mock, mock_webdriver):
                     'itemtype="https://schema.org/QAPage" class="html__responsive ">')
     validate_tags(data, data_compare)
     assert discord.called
+
+
+def test_calculate_amount_of_tags():
+    assert calculate_amount_of_tags("<script>asdkjsaed</script>", "script") == 1
+    assert calculate_amount_of_tags("<script>asdkjsaed</script>", "body") == 0
