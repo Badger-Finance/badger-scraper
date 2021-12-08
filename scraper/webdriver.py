@@ -19,3 +19,9 @@ def webdriver_session() -> WebDriver:
     )
     yield driver
     driver.quit()
+
+
+def fetch_data(url: str) -> str:
+    with webdriver_session() as driver:
+        driver.get(url)
+        return driver.page_source

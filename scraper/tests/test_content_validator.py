@@ -3,7 +3,7 @@ import pytest
 from scraper.constants import BADGER_APP_COMPARE_URL
 from scraper.constants import BADGER_APP_URL
 from scraper.hash_content_validator import compare_hashes
-from scraper.hash_content_validator import fetch_data
+from scraper.webdriver import fetch_data
 
 
 @pytest.fixture
