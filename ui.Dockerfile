@@ -3,6 +3,7 @@ ARG V2_UI_READ_TOKEN
 ENV APP_HOME /v2-ui
 ENV NODE_OPTION --max-old-space-size=8192
 WORKDIR $APP_HOME
+COPY wait_for_ui.sh ./
 
 RUN apk update
 RUN apk add git

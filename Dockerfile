@@ -12,6 +12,7 @@ RUN apt-get update && apt-get install -y google-chrome-stable
 RUN apt-get install -yqq unzip curl
 RUN wget -O /tmp/chromedriver.zip http://chromedriver.storage.googleapis.com/`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE`/chromedriver_linux64.zip
 RUN unzip /tmp/chromedriver.zip chromedriver -d $CHROMEDRIVER_PATH
+RUN chmod 755 /usr/local/bin/chromedriver
 
 ENV PYTHONUNBUFFERED 1
 ENV APP_HOME /scraper_bot
