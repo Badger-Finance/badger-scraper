@@ -9,6 +9,8 @@ spec:
     - name: local-ui
       image: UI_IMAGE_NAME
       command: ["serve", "-s", "./build"]
+      ports:
+        - containerPort: 3000
       resources:
         requests:
           memory: "4Gi"
