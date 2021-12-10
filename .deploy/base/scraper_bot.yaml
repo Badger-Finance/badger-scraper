@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: scraper-bot
+  labels:
+    app: scraper-bot
+spec:
+  initContainers:
+    - name: local-ui
+      image: UI_IMAGE_NAME
+      command: ["serve", "-s", "./build"]
+      resources:
+        requests:
+          memory: "4Gi"
+          cpu: "500m"
+  containers:
+    - name: scraper-bot
+      command: ["python", "main.py"]
+      image: SCRAPER_IMAGE_NAME
+  restartPolicy: OnFailure
+status: {}
