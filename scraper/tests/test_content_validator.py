@@ -16,7 +16,7 @@ def test_validator__happy(mocker, discord_mock, mock_webdriver):
     discord = mocker.patch("scraper.content_validator.send_ok_to_discord")
     data = fetch_data(BADGER_APP_URL)
     data_to_compare = fetch_data(BADGER_APP_COMPARE_URL)
-    validate_tags(data, data_to_compare)
+    validate_tags(data, data_to_compare, "/endpoint")
     assert discord.called
 
 
@@ -25,7 +25,7 @@ def test_validator__spoiled(mocker, discord_mock, mock_webdriver):
     data = fetch_data(BADGER_APP_URL)
     data_compare = ('<!DOCTYPE html><html itemscope '
                     'itemtype="https://schema.org/QAPage" class="html__responsive ">')
-    validate_tags(data, data_compare)
+    validate_tags(data, data_compare, "/endpoint")
     assert discord.called
 
 

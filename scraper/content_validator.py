@@ -13,7 +13,7 @@ def calculate_amount_of_tags(content: str, tag: str) -> int:
     return len(soup.find_all(tag))
 
 
-def validate_tags(badger_html: str, target_html: str):
+def validate_tags(badger_html: str, target_html: str, endpoint: str):
     badger_site_tags_count = calculate_amount_of_tags(badger_html, "script")
     target_site_tags_count = calculate_amount_of_tags(target_html, "script")
     if badger_site_tags_count != target_site_tags_count:
@@ -21,8 +21,8 @@ def validate_tags(badger_html: str, target_html: str):
             difference = badger_site_tags_count - target_site_tags_count
         else:
             difference = target_site_tags_count - badger_site_tags_count
-        alert_to_discord(difference)
+        alert_to_discord(difference, endpoint)
         logger.warning("Websites are different!")
     else:
-        send_ok_to_discord(badger_site_tags_count)
+        send_ok_to_discord(badger_site_tags_count, endpoint)
         logger.info("Websites are identical")
