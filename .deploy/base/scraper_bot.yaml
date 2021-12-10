@@ -5,7 +5,7 @@ metadata:
   labels:
     app: scraper-bot
 spec:
-  initContainers:
+  containers:
     - name: local-ui
       image: UI_IMAGE_NAME
       command: ["serve", "-s", "./build"]
@@ -13,7 +13,10 @@ spec:
         requests:
           memory: "4Gi"
           cpu: "500m"
-  containers:
+      lifecycle:
+        postStart:
+          exec:
+            command: ["sh", "wait_for_ui.sh"]
     - name: scraper-bot
       command: ["python", "main.py"]
       image: SCRAPER_IMAGE_NAME
