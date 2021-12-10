@@ -12,4 +12,4 @@ RUN yarn
 RUN yarn global add serve
 RUN yarn build
 
-RUN chmod +x /opt/program/serve
+RUN export PATH="$PATH:$(yarn global bin)"
