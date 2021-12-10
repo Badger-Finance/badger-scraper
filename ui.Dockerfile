@@ -11,5 +11,3 @@ RUN git clone https://$V2_UI_READ_TOKEN:x-oauth-basic@github.com/Badger-Finance/
 RUN yarn
 RUN yarn global add serve
 RUN yarn build
-
-RUN export PATH="$PATH:$(yarn global bin)"
