@@ -30,7 +30,7 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v1
       - name: UI - build, tag, and push image to Amazon ECR
         run: |
-          docker build --build-arg V2_UI_READ_TOKEN=${{ secrets.V2_UI_READ_TOKEN }} -t ${{ steps.login-ecr.outputs.registry }}${{ env.UI_IMAGE_NAME }} .
+          docker build --build-arg V2_UI_READ_TOKEN=${{ secrets.V2_UI_READ_TOKEN }} -t ${{ steps.login-ecr.outputs.registry }}${{ env.UI_IMAGE_NAME }} -f ui.Dockerfile .
           docker push ${{ steps.login-ecr.outputs.registry }}${{ env.UI_IMAGE_NAME }}
       - name: Scraper - build, tag, and push image to Amazon ECR
         run: |
