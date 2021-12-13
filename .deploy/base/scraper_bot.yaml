@@ -23,5 +23,4 @@ spec:
       command: ["python", "main.py"]
       image: SCRAPER_IMAGE_NAME
   restartPolicy: OnFailure
-  maxRetries: 3
 status: {}
