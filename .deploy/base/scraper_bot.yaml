@@ -25,8 +25,8 @@ spec:
           livenessProbe:
             exec:
               command: ["cat", "/liveness-data/finished"]
-              initialDelaySeconds: 60
-              periodSeconds: 5
+            initialDelaySeconds: 60
+            periodSeconds: 5
           volumeMounts:
           - name: liveness-data
             mountPath: /liveness-data
