@@ -10,7 +10,6 @@ env:
   MANIFEST_RESPOSITORY: 'badger-finance/badger-kube-manifests'
   SCRAPER_IMAGE_NAME: '/badger/${{ github.event.repository.name }}:${{ github.event.after }}'
   UI_IMAGE_NAME: '/badger/${{ github.event.repository.name }}-ui:${{ github.event.after }}'
-  DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
 
 jobs:
   build:
@@ -34,7 +33,7 @@ jobs:
           docker push ${{ steps.login-ecr.outputs.registry }}${{ env.UI_IMAGE_NAME }}
       - name: Scraper - build, tag, and push image to Amazon ECR
         run: |
-          docker build -t ${{ steps.login-ecr.outputs.registry }}${{ env.SCRAPER_IMAGE_NAME }} .
+          docker build --build-arg WEBHOOK=${{ secrets.DISCORD_WEBHOOK_URL }} -t ${{ steps.login-ecr.outputs.registry }}${{ env.SCRAPER_IMAGE_NAME }} .
           docker push ${{ steps.login-ecr.outputs.registry }}${{ env.SCRAPER_IMAGE_NAME }}
 
   validate_manifest:

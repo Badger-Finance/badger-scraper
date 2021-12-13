@@ -1,5 +1,6 @@
 FROM python:3.9-slim-buster
 
+ARG WEBHOOK
 RUN apt-get update
 RUN apt-get install -y gnupg2
 RUN apt-get install -y wget
@@ -16,7 +17,7 @@ RUN chmod 755 $CHROMEDRIVER_PATH
 
 ENV PYTHONUNBUFFERED 1
 ENV APP_HOME /scraper_bot
-ENV DISCORD_WEBHOOK_URL=$DISCORD_WEBHOOK_URL
+ENV DISCORD_WEBHOOK_URL=$WEBHOOK
 ENV BADGER_APP_COMPARE_URL=http://localhost:3000
 WORKDIR $APP_HOME
 COPY . ./
