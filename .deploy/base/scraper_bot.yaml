@@ -40,7 +40,7 @@ spec:
           volumeMounts:
           - name: liveness-data
             mountPath: /liveness-data
-      restartPolicy: OnFailure
+      restartPolicy: Never
       volumes:
       - name: liveness-data
         emptyDir: {}
