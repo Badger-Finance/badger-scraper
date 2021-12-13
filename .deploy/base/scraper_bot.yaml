@@ -10,7 +10,7 @@ spec:
       containers:
         - name: local-ui
           image: UI_IMAGE_NAME
-          command: ["serve", "-s", "./build"]
+          command: ["touch", "/liveness-data/finished", "&&", "serve", "-s", "./build"]
           ports:
             - containerPort: 3000
               protocol: 'TCP'
@@ -22,7 +22,25 @@ spec:
             postStart:
               exec:
                 command: ["sh", "wait_for_ui.sh"]
+          livenessProbe:
+            exec:
+              command: ["cat", "/liveness-data/finished"]
+              initialDelaySeconds: 60
+              periodSeconds: 5
+          volumeMounts:
+          - name: liveness-data
+            mountPath: /liveness-data
         - name: scraper-bot
           command: ["python", "main.py"]
           image: SCRAPER_IMAGE_NAME
+          lifecycle:
+            preStop:
+              exec:
+                command: ["rm", "-f", "/liveness-data/finished"]
+          volumeMounts:
+          - name: liveness-data
+            mountPath: /liveness-data
       restartPolicy: OnFailure
+      volumes:
+      - name: liveness-data
+        emptyDir: {}
