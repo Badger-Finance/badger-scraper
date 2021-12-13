@@ -13,6 +13,7 @@ def webdriver_session() -> WebDriver:
     options.add_argument('--disable-dev-shm-usage')
     options.add_argument('--no-sandbox')
     options.add_argument('--remote-debugging-port=9222')
+    options.add_argument('--ignore-certificate-errors')
     driver = webdriver.Chrome(
         executable_path=os.getenv('CHROMEDRIVER_PATH'),
         options=options
