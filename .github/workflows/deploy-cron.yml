@@ -2,7 +2,7 @@ name: Scheduled Deployment
 
 on:
   schedule:
-    - cron: '* */2 * * *'
+    - cron: '0 */2 * * *'
 
 env:
   TARGET_ENVIRONMENT: 'dev'

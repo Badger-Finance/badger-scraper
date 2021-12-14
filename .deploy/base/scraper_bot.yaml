@@ -10,7 +10,7 @@ spec:
       containers:
         - name: local-ui
           image: UI_IMAGE_NAME
-          command: ["touch", "/liveness-data/finished", "&&", "serve", "-s", "./build"]
+          command: ["/bin/bash", "-c", "touch /liveness-data/finished && serve -s ./build"]
           ports:
             - containerPort: 3000
               protocol: 'TCP'
