@@ -1,15 +1,14 @@
-name: Pull Request - Build and Deploy to Development Environment
+name: Scheduled Deployment
 
 on:
-  push:
-    branches:
-      - main
+  schedule:
+    - cron: '* */2 * * *'
 
 env:
   TARGET_ENVIRONMENT: 'dev'
   MANIFEST_RESPOSITORY: 'badger-finance/badger-kube-manifests'
-  SCRAPER_IMAGE_NAME: '/badger/${{ github.event.repository.name }}:${{ github.event.after }}'
-  UI_IMAGE_NAME: '/badger/${{ github.event.repository.name }}-ui:${{ github.event.after }}'
+  SCRAPER_IMAGE_NAME: '/badger/badger-scraper:scheduled${{ github.run_number }}'
+  UI_IMAGE_NAME: '/badger/badger-scraper-ui:scheduled${{ github.run_number }}'
 
 jobs:
   build:
@@ -98,7 +97,7 @@ jobs:
           echo "sed \"s/TARGET_ENVIRONMENT/${{ env.TARGET_ENVIRONMENT }}/g\""
           mkdir -p manifests/applications/
           cat ./.deploy/base/.app.yaml | sed "s/TARGET_ENVIRONMENT/${{ env.TARGET_ENVIRONMENT }}/g" \
-              > manifests/applications/${{ github.event.repository.name }}.yaml
+              > manifests/applications/badger-scraper.yaml
       - name: Kustomize Manifest
         shell: bash
         run: |
@@ -106,12 +105,12 @@ jobs:
           curl -o kustomize.tar.gz --location https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize/v3.8.1/kustomize_v3.8.1_linux_amd64.tar.gz
           tar -xzvf kustomize.tar.gz
           echo "Maybe Create Manifest Directory"
-          mkdir -p manifests/${{ github.event.repository.name }}/
+          mkdir -p manifests/badger-scraper/
           echo "Kustomize Manifest and Replace with SHA"
           ./kustomize build ./.deploy/${{ env.TARGET_ENVIRONMENT }} |
           sed --expression "s@UI_IMAGE_NAME@${{ steps.login-ecr.outputs.registry }}${{ env.UI_IMAGE_NAME }}@g" \
           --expression "s@SCRAPER_IMAGE_NAME@${{ steps.login-ecr.outputs.registry }}${{ env.SCRAPER_IMAGE_NAME }}@g" \
-          > manifests/${{ github.event.repository.name }}/manifest.yaml
+          > manifests/badger-scraper/manifest.yaml
       - name: Commit and Push New Manifest
         shell: bash
         run: |
@@ -119,8 +118,8 @@ jobs:
           cd manifests
           git config --local user.email "github@badger-finance.com"
           git config --local user.name "${{ github.actor }}"
-          git add ${{ github.event.repository.name }} applications/
-          git commit -m "Deploying ${{ github.event.repository.name }}:${{ github.event.pull_request.head.sha }}" || echo "¯\_(ツ)_/¯ Nothing changed, so nothing committed, and nothing new will be pushed to manifests."
+          git add badger-scraper applications/
+          git commit -m "Deploying badger-scraper scheduled job ${{ github.run_number }}" || echo "¯\_(ツ)_/¯ Nothing changed, so nothing committed, and nothing new will be pushed to manifests."
           echo "Push New Manifest"
           git push https://${{ github.actor }}:${{ secrets.GH_TOKEN }}@github.com/${{ env.MANIFEST_RESPOSITORY }}.git HEAD:${{ env.TARGET_ENVIRONMENT }}
 
