@@ -5,6 +5,7 @@ metadata:
   labels:
     app: scraper-bot
 spec:
+  ttlSecondsAfterFinished: 1800
   template:
     spec:
       containers:
