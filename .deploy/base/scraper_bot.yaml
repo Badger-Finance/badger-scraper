@@ -9,7 +9,7 @@ spec:
     - name: local-ui
       image: UI_IMAGE_NAME
       imagePullPolicy: Always
-      command: ["sh", "-c", "serve -s ./build"]
+      command: ["sh", "-c", "serve -s ./build & read -t 600 ;  kill $!"]
       ports:
         - containerPort: 3000
           protocol: 'TCP'
