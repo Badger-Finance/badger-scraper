@@ -2,6 +2,7 @@ FROM node:14.17.6-alpine
 ARG V2_UI_READ_TOKEN
 ENV APP_HOME /v2-ui
 ENV NODE_OPTION --max-old-space-size=8192
+ENV GENERATE_SOURCEMAPS false
 WORKDIR $APP_HOME
 
 RUN apk update

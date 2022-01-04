@@ -1,45 +1,34 @@
-apiVersion: batch/v1
-kind: Job
+apiVersion: v1
+kind: Pod
 metadata:
-  name: scraper-job
+  name: scraper-bot
   labels:
     app: scraper-bot
 spec:
-  ttlSecondsAfterFinished: 1800
-  template:
-    spec:
-      containers:
-        - name: local-ui
-          image: UI_IMAGE_NAME
-          imagePullPolicy: Always
-          command: ["sh", "-c", "touch /liveness-data/finished && serve -s ./build"]
-          ports:
-            - containerPort: 3000
-              protocol: 'TCP'
-          resources:
-            requests:
-              memory: "4Gi"
-              cpu: "500m"
-          lifecycle:
-            postStart:
-              exec:
-                command: ["sh", "wait_for_ui.sh"]
-          livenessProbe:
-            exec:
-              command: ["cat", "/liveness-data/finished"]
-            initialDelaySeconds: 60
-            periodSeconds: 5
-          volumeMounts:
-          - name: liveness-data
-            mountPath: /liveness-data
-        - name: scraper-bot
-          command: ["sh", "-c", "python main.py && rm -f /liveness-data/finished"]
-          image: SCRAPER_IMAGE_NAME
-          imagePullPolicy: Always
-          volumeMounts:
-          - name: liveness-data
-            mountPath: /liveness-data
-      restartPolicy: Never
-      volumes:
+  containers:
+    - name: local-ui
+      image: UI_IMAGE_NAME
+      imagePullPolicy: Always
+      command: ["sh", "-c", "serve -s ./build"]
+      ports:
+        - containerPort: 3000
+          protocol: 'TCP'
+      resources:
+        requests:
+          memory: "4Gi"
+          cpu: "500m"
+      lifecycle:
+        postStart:
+          exec:
+            command: ["sh", "wait_for_ui.sh"]
+      volumeMounts:
       - name: liveness-data
-        emptyDir: {}
+        mountPath: /liveness-data
+    - name: scraper-bot
+      command: ["sh", "-c", "python main.py"]
+      image: SCRAPER_IMAGE_NAME
+      imagePullPolicy: Always
+  restartPolicy: OnFailure
+  volumes:
+  - name: liveness-data
+    emptyDir: {}
