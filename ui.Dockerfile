@@ -1,4 +1,4 @@
-FROM node:14.17.6-alpine
+FROM node:16.13.1-alpine
 ARG V2_UI_READ_TOKEN
 ENV APP_HOME /v2-ui
 ENV NODE_OPTION --max-old-space-size=8192
