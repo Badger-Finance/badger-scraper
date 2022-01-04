@@ -8,6 +8,7 @@ WORKDIR $APP_HOME
 RUN apk update
 RUN apk add git
 RUN apk add curl
+RUN apk add coreutils
 
 RUN git clone https://$V2_UI_READ_TOKEN:x-oauth-basic@github.com/Badger-Finance/v2-ui.git .
 COPY wait_for_ui.sh ./
