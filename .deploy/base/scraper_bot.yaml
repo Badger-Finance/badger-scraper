@@ -1,36 +1,37 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: batch/v1beta1
+kind: CronJob
 metadata:
-  name: scraper-deployment
+  name: scraper
   labels:
-    app: scraper-bot
+    app: scraper
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: scraper-bot
-  template:
-    metadata:
-      labels:
-        app: scraper-bot
+  # cron to run every 30 min every day "*/30 * * * *"
+  schedule: "30 */2 * * *"
+  startingDeadlineSeconds: 300
+  suspend: false
+  jobTemplate:
     spec:
-      containers:
-        - name: local-ui
-          image: UI_IMAGE_NAME
-          imagePullPolicy: Always
-          command: ["sh", "run_ui.sh"]
-          ports:
-            - containerPort: 3000
-              protocol: 'TCP'
-          resources:
-            requests:
-              memory: "4Gi"
-              cpu: "500m"
-          lifecycle:
-            postStart:
-              exec:
-                command: ["sh", "wait_for_ui.sh"]
-        - name: scraper-bot
-          command: ["sh", "-c", "python main.py"]
-          image: SCRAPER_IMAGE_NAME
-          imagePullPolicy: Always
+      template:
+        spec:
+          containers:
+            - name: local-ui
+              image: UI_IMAGE_NAME
+              imagePullPolicy: Always
+              command: ["sh", "run_ui.sh"]
+              ports:
+                - containerPort: 3000
+                  protocol: 'TCP'
+              resources:
+                requests:
+                  memory: "4Gi"
+                  cpu: "500m"
+              lifecycle:
+                postStart:
+                  exec:
+                    command: ["sh", "wait_for_ui.sh"]
+            restartPolicy: OnFailure
+            - name: scraper-bot
+              command: ["sh", "-c", "python main.py"]
+              image: SCRAPER_IMAGE_NAME
+              imagePullPolicy: Always
+            restartPolicy: OnFailure
