@@ -29,9 +29,8 @@ spec:
                 postStart:
                   exec:
                     command: ["sh", "wait_for_ui.sh"]
-            restartPolicy: OnFailure
             - name: scraper-bot
               command: ["sh", "-c", "python main.py"]
               image: SCRAPER_IMAGE_NAME
               imagePullPolicy: Always
-            restartPolicy: OnFailure
+          restartPolicy: OnFailure
