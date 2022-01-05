@@ -12,6 +12,7 @@ RUN apk add coreutils
 
 RUN git clone https://$V2_UI_READ_TOKEN:x-oauth-basic@github.com/Badger-Finance/v2-ui.git .
 COPY wait_for_ui.sh ./
+COPY run_ui.sh ./
 RUN yarn
 RUN yarn global add serve
 RUN yarn build
