@@ -34,4 +34,3 @@ spec:
           command: ["sh", "-c", "python main.py"]
           image: SCRAPER_IMAGE_NAME
           imagePullPolicy: Always
-      restartPolicy: OnFailure
