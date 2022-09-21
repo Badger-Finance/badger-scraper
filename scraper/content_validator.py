@@ -1,11 +1,8 @@
-import logging
-
 from bs4 import BeautifulSoup
 
 from scraper.discord import alert_to_discord
 from scraper.discord import send_ok_to_discord
-
-logger = logging.getLogger(__name__)
+from scraper.json_logger import logger
 
 
 def calculate_amount_of_tags(content: str, tag: str) -> int:
