@@ -19,7 +19,7 @@ def validate_tags(badger_html: str, target_html: str, endpoint: str):
         else:
             difference = target_site_tags_count - badger_site_tags_count
         alert_to_discord(difference, endpoint)
-        logger.warning("Websites are different!")
+        logger.error("Websites are different!")
     else:
         send_ok_to_discord(badger_site_tags_count, endpoint)
         logger.info("Websites are identical")
